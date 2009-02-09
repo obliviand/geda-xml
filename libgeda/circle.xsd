@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
+
+  <xs:include schemaLocation="types.xsd" />
+
+  <xs:element name="circle" type="libgeda:circle_" substitutionGroup="libgeda:primative_" />
+
+  <xs:attributeGroup name="circle_attributes_">
+    <xs:attributeGroup ref="libgeda:point_" />
+    <xs:attribute name="radius" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="color" type="libgeda:object_color_" use="required" />
+    <xs:attribute name="line-width" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="capstyle" type="libgeda:object_end_" use="required" />
+    <xs:attributeGroup ref="libgeda:dashstyle_" />
+    <xs:attributeGroup ref="libgeda:filltype_" />
+  </xs:attributeGroup>
+  
+  <xs:complexType name="circle_">
+    <xs:attributeGroup ref="libgeda:circle_attributes_" />
+  </xs:complexType>
+
+</xs:schema>

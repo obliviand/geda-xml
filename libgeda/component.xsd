@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
+
+  <xs:include schemaLocation="types.xsd" />
+  
+  <xs:complexType name="component_">
+    <xs:sequence>
+      <xs:element ref="libgeda:primative_" />
+      <xs:element name="pins" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="pin" type="libgeda:pin_" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attributeGroup ref="libgeda:point_" />
+    <xs:attribute name="selectable" type="libgeda:object_selectable_" use="required" />
+    <xs:attribute name="angle" type="libgeda:object_angle_" use="required" />
+    <xs:attribute name="mirror" type="libgeda:object_mirrored_" use="required" />
+    <xs:attribute name="basename" type="xs:string" use="required" />
+  </xs:complexType>
+
+</xs:schema>

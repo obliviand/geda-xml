@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
+
+  <xs:include schemaLocation="arc.xsd" />
+  <xs:include schemaLocation="attribute.xsd" />
+  <xs:include schemaLocation="box.xsd" />
+  <xs:include schemaLocation="bus.xsd" />
+  <xs:include schemaLocation="circle.xsd" />
+  <xs:include schemaLocation="component.xsd" />
+  <xs:include schemaLocation="font.xsd" />
+  <xs:include schemaLocation="line.xsd" />
+  <xs:include schemaLocation="net.xsd" />
+  <xs:include schemaLocation="path.xsd" />
+  <xs:include schemaLocation="picture.xsd" />
+  <xs:include schemaLocation="pin.xsd" />
+  <xs:include schemaLocation="text.xsd" />
+  <xs:include schemaLocation="version.xsd" />
+
+  <xs:element name="primative_" abstract="true" />
+
+  <xs:simpleType name="object_end_">
+    <xs:annotation>
+      <xs:appinfo>typedef</xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="end-none" />
+      <xs:enumeration value="end-square" />
+      <xs:enumeration value="end-round" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="object_type_">
+    <xs:annotation>
+      <xs:appinfo>typedef</xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="type-solid" />
+      <xs:enumeration value="type-dotted" />
+      <xs:enumeration value="type-dashed" />
+      <xs:enumeration value="type-center" />
+      <xs:enumeration value="type-phantom" />
+      <xs:enumeration value="type-erase" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="object_filling_">
+    <xs:annotation>
+      <xs:appinfo>typedef</xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="filling-hollow" />
+      <xs:enumeration value="filling-fill" />
+      <xs:enumeration value="filling-mesh" />
+      <xs:enumeration value="filling-hatch" />
+      <xs:enumeration value="filling-void" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:attributeGroup name="dashstyle_">
+    <xs:annotation>
+      <xs:appinfo>
+        <xsl:choose>
+          <xsl:when test="@dashstyle='type-solid'">
+            <xsl:if test="@dashlength or @dashspace">
+              <xsl:message terminate="yes">
+                <xsl:text>@dashlength and @dashspace cannot exist if @dashstyle is 'type-solid'</xsl:text>
+              </xsl:message>
+            </xsl:if>
+          </xsl:when>
+          <xsl:when test="@dashstyle='type-dotted'">
+            <xsl:if test="@dashlength">
+              <xsl:message terminate="yes">
+                <xsl:text>@dashlength cannot exist if @dashstyle is 'type-dotted'</xsl:text>
+              </xsl:message>
+            </xsl:if>
+          </xsl:when>
+        </xsl:choose>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:attribute name="dashstyle" type="libgeda:object_type_" use="required" />
+    <xs:attribute name="dashlength" type="xs:nonNegativeInteger" use="optional" />
+    <xs:attribute name="dashspace" type="xs:nonNegativeInteger" use="optional" />
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="filltype_">
+    <xs:annotation>
+      <xs:appinfo>
+        <xsl:choose>
+          <xsl:when test="@filltype='filling-hollow' or @filltype='filling-fill'">
+            <xsl:if test="@fillwidth or @angle1 or @pitch1 or @angle2 or @pitch2">
+              <xsl:message terminate="yes">
+                <xsl:text>@fillwidth, @angle1, @pitch1, @angle2 and @pitch2 cannot exist if @filltype is 'filling-hollow'</xsl:text>
+              </xsl:message>
+            </xsl:if>
+          </xsl:when>
+          <xsl:when test="@filltype='filling-mesh'">
+            <xsl:if test="not(@fillwidth and @angle1 and @pitch1 and @angle2 and @pitch2)">
+              <xsl:message terminate="yes">
+                <xsl:text>@fillwidth, @angle1, @pitch1, @angle2 and @pitch2 must exist if @filltype is 'filling-mesh'</xsl:text>
+              </xsl:message>
+            </xsl:if>
+          </xsl:when>
+          <xsl:when test="@filltype='filling-hatch'">
+            <xsl:if test="not(@fillwidth and @angle1 and @pitch1) or @angle2 or @pitch2)">
+              <xsl:message terminate="yes">
+                <xsl:text>@fillwidth, @angle1 and @pitch1 must exist and @angle2 and @pitch2 cannot exist if @filltype is 'filling-hatch'</xsl:text>
+              </xsl:message>
+            </xsl:if>
+          </xsl:when>
+        </xsl:choose>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:attribute name="filltype" type="libgeda:object_filling_" use="required" />
+    <xs:attribute name="fillwidth" type="xs:nonNegativeInteger" use="optional" />
+    <xs:attribute name="angle1" type="xs:nonNegativeInteger" use="optional" />
+    <xs:attribute name="pitch1" type="xs:nonNegativeInteger" use="optional" />
+    <xs:attribute name="angle2" type="xs:nonNegativeInteger" use="optional" />
+    <xs:attribute name="pitch2" type="xs:nonNegativeInteger" use="optional" />
+  </xs:attributeGroup>
+
+  <xs:simpleType name="object_line_">
+    <xs:annotation>
+      <xs:appinfo>typedef</xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="line-end1" />
+      <xs:enumeration value="line-end2" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="path-code_">
+    <xs:annotation>
+      <xs:appinfo>typedef</xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="path-moveto" />
+      <xs:enumeration value="path-moveto-open" />
+      <xs:enumeration value="path-curveto" />
+      <xs:enumeration value="path-lineto" />
+      <xs:enumeration value="path-end" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="object_arc_">
+    <xs:annotation>
+      <xs:appinfo>typedef</xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="arc-center" />
+      <xs:enumeration value="arc-radius" />
+      <xs:enumeration value="arc-start-angle" />
+      <xs:enumeration value="arc-end-angle" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="object_box_">
+    <xs:annotation>
+      <xs:appinfo>typedef</xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="box-upper-left" />
+      <xs:enumeration value="box-lower-right" />
+      <xs:enumeration value="box-upper-right" />
+      <xs:enumeration value="box-lower-left" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="object_picture_">
+    <xs:annotation>
+      <xs:appinfo>typedef</xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="picture-upper-left" />
+      <xs:enumeration value="picture-lower-right" />
+      <xs:enumeration value="picture-upper-right" />
+      <xs:enumeration value="picture-lower-left" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="object_circle_">
+    <xs:annotation>
+      <xs:appinfo>typedef</xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="circle-center" />
+      <xs:enumeration value="circle-radius" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="object_color_">
+    <xs:annotation>
+      <xs:appinfo>typedef</xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="background-color" />
+      <xs:enumeration value="pin-color" />
+      <xs:enumeration value="net-endpoint-color" />
+      <xs:enumeration value="graphic-color" />
+      <xs:enumeration value="net-color" />
+      <xs:enumeration value="attribute-color" />
+      <xs:enumeration value="logic-bubble-color" />
+      <xs:enumeration value="dots-grid-color" />
+      <xs:enumeration value="detached-attribute-color" />
+      <xs:enumeration value="text-color" />
+      <xs:enumeration value="bus-color" />
+      <xs:enumeration value="select-color" />
+      <xs:enumeration value="boundingbox-color" />
+      <xs:enumeration value="zoom-box-color" />
+      <xs:enumeration value="stroke-color" />
+      <xs:enumeration value="lock-color" />
+      <xs:enumeration value="output-background-color" />
+      <xs:enumeration value="freestyle1-color" />
+      <xs:enumeration value="freestyle2-color" />
+      <xs:enumeration value="freestyle3-color" />
+      <xs:enumeration value="freestyle4-color" />
+      <xs:enumeration value="junction-color" />
+      <xs:enumeration value="mesh-grid-major-color" />
+      <xs:enumeration value="mesh-grid-minor-color" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:attributeGroup name="point_">
+    <xs:attribute name="x" type="xs:integer" use="required" />
+    <xs:attribute name="y" type="xs:integer" use="required" />
+    <xs:attribute name="z" type="xs:integer" use="optional" />
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="first_coordinate_">
+    <xs:attribute name="x1" type="xs:integer" use="required" />
+    <xs:attribute name="y1" type="xs:integer" use="required" />
+    <xs:attribute name="z1" type="xs:integer" use="optional" />
+  </xs:attributeGroup>
+  
+  <xs:attributeGroup name="second_coordinate_">
+    <xs:attribute name="x2" type="xs:integer" use="required" />
+    <xs:attribute name="y2" type="xs:integer" use="required" />
+    <xs:attribute name="z2" type="xs:integer" use="optional" />
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="end_points_">
+    <xs:attributeGroup ref="libgeda:first_coordinate_" />
+    <xs:attributeGroup ref="libgeda:second_coordinate_" />
+  </xs:attributeGroup>
+  
+  <xs:attributeGroup name="dimensions_">
+    <xs:attribute name="width" type="xs:integer" use="required" />
+    <xs:attribute name="height" type="xs:integer" use="required" />
+    <xs:attribute name="depth" type="xs:integer" use="optional" />
+  </xs:attributeGroup>
+
+  <xs:complexType name="coordinate_">
+    <xs:attributeGroup ref="libgeda:point_" />
+  </xs:complexType>
+
+  <xs:simpleType name="object_angle_">
+    <xs:restriction base="xs:nonNegativeInteger">
+      <xs:enumeration value="0" />
+      <xs:enumeration value="90" />
+      <xs:enumeration value="180" />
+      <xs:enumeration value="270" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="object_mirrored_">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="not-mirrored" />
+      <xs:enumeration value="mirrored" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="object_embedded_">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="not-embedded" />
+      <xs:enumeration value="embedded" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="object_selectable_">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="not-selectable" />
+      <xs:enumeration value="selectable" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="object_visible_">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="invisible" />
+      <xs:enumeration value="visible" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="object_show_name_value_">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="show-name-value" />
+      <xs:enumeration value="show-value" />
+      <xs:enumeration value="show-name" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="object_pin_">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="normal-pin" />
+      <xs:enumeration value="bus-pin" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+</xs:schema>

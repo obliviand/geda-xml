@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:libpcb="http://www.gpleda.org/schemas/geda-gaf/libgpcb"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgpcb">
+
+  <xs:complexType name="thermal_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile Thermal
+
+@syntax
+Thermal [Scale]
+@end syntax
+
+@table @var
+@item Scale
+Relative size of thermal fingers.  A value of 1.0 makes the finger
+width twice the clearance gap width (measured across the gap, not
+diameter).  The normal value is 0.5, which results in a finger width
+the same as the clearance gap width.
+@end table
+
+%end-doc */
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="scale" type="xs:decimal" use="required" />
+  </xs:complexType>
+
+</xs:schema>

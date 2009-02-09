@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
+
+  <xs:include schemaLocation="types.xsd" />
+
+  <xs:element name="path" type="libgeda:path_" substitutionGroup="libgeda:primative_" />
+
+  <xs:attributeGroup name="path_attributes_">
+    <xs:attribute name="color" type="libgeda:object_color_" use="required" />
+    <xs:attribute name="width" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="capstyle" type="libgeda:object_end_" use="required" />
+    <xs:attributeGroup ref="libgeda:dashstyle_" />
+    <xs:attributeGroup ref="libgeda:filltype_" />
+  </xs:attributeGroup>
+  
+  <xs:complexType name="path_">
+    <xs:sequence>
+      <xs:element ref="libgeda:path_command_" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="closepath" minOccurs="1" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attributeGroup ref="libgeda:path_attributes_" />
+  </xs:complexType>
+
+  <xs:element name="path_command_" abstract="true" />
+
+  <xs:complexType name="path_moveto_">
+    <xs:attributeGroup ref="libgeda:point_" />
+  </xs:complexType>
+  <xs:element name="moveto" type="libgeda:path_moveto_" substitutionGroup="libgeda:path_command_" />
+  
+  <xs:complexType name="path_lineto_">
+    <xs:attributeGroup ref="libgeda:point_" />
+  </xs:complexType>
+  <xs:element name="lineto" type="libgeda:path_lineto_" substitutionGroup="libgeda:path_command_" />
+  
+  <xs:complexType name="path_curveto_">
+    <xs:attributeGroup ref="libgeda:end_points_" />
+    <xs:attributeGroup ref="libgeda:point_" />
+  </xs:complexType>
+  <xs:element name="curveto" type="libgeda:path_curveto_" substitutionGroup="libgeda:path_command_" />
+</xs:schema>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
+
+  <xs:include schemaLocation="types.xsd" />
+
+  <xs:element name="text" type="libgeda:text_" substitutionGroup="libgeda:primative_" />
+
+  <xs:simpleType name="text_alignment_">
+    <xs:restriction base="xs:nonNegativeInteger">
+      <xs:pattern value="[0-8]" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:attributeGroup name="text_attributes_">
+    <xs:attributeGroup ref="libgeda:point_" />
+    <xs:attribute name="color" type="libgeda:object_color_" use="required" />
+    <xs:attribute name="size" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="visibility" type="libgeda:object_visible_" use="required" />
+    <xs:attribute name="show_name_value" type="libgeda:object_show_name_value_" use="required" />
+    <xs:attribute name="angle" type="libgeda:object_angle_" />
+    <xs:attribute name="alignment" type="libgeda:text_alignment_" />
+  </xs:attributeGroup>
+  
+  <xs:complexType name="text_" mixed="true">
+    <xs:sequence>
+      <xs:element name="string" type="xs:string" />
+    </xs:sequence>
+    <xs:attributeGroup ref="libgeda:text_attributes_" />
+  </xs:complexType>
+
+</xs:schema>

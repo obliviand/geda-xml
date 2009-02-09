@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
+  
+  <xs:complexType name="font_">
+    <xs:attribute name="character">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="."/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="width" type="xs:nonNegativeInteger"/>
+  </xs:complexType>
+  
+</xs:schema>

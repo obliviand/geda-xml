@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
+
+  <xs:include schemaLocation="types.xsd" />
+
+  <xs:simpleType name="whichend_">
+    <xs:restriction base="xs:nonNegativeInteger">
+      <xs:pattern value="[01]"></xs:pattern>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:attributeGroup name="pin_attributes_">
+    <xs:attributeGroup ref="libgeda:end_points_" />
+    <xs:attribute name="color" type="libgeda:object_color_" use="required" />
+    <xs:attribute name="pintype" type="libgeda:object_pin_" use="required" />
+    <xs:attribute name="whichend" type="libgeda:whichend_" use="required" />
+  </xs:attributeGroup>
+  
+  <xs:complexType name="pin_">
+    <xs:annotation>
+      <xs:appinfo>
+        <xsl:choose>
+          <xsl:when test="sqrt((@x2 - @x1)^2 + (@y2 - @y1)^2) = 0">
+            <xsl:message terminate="yes">
+              <xsl:text>pin length cannot be 0</xsl:text>
+            </xsl:message>
+          </xsl:when>
+        </xsl:choose>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:attributeGroup ref="libgeda:pin_attributes_" />
+  </xs:complexType>
+
+</xs:schema>

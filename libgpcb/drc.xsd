@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:libgpcb="http://www.gpleda.org/schemas/geda-gaf/libgpcb"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgpcb">
+
+  <xs:complexType name="drc_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile DRC
+
+@syntax
+DRC [Bloat Shrink Line Silk Drill Ring]
+DRC [Bloat Shrink Line Silk]
+DRC [Bloat Shrink Line]
+@end syntax
+
+@table @var
+@item Bloat
+Minimum spacing between copper.
+@item Shrink
+Minimum copper overlap to guarantee connectivity.
+@item Line
+Minimum line thickness.
+@item Silk
+Minimum silk thickness.
+@item Drill
+Minimum drill size.
+@item Ring
+Minimum width of the annular ring around pins and vias.
+@end table
+
+%end-doc */
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="bloat" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="shrink" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="line" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="silk" type="xs:nonNegativeInteger" use="optional" />
+    <xs:attribute name="drill" type="xs:nonNegativeInteger" use="optional" />
+    <xs:attribute name="ring" type="xs:nonNegativeInteger" use="optional" />
+  </xs:complexType>
+
+</xs:schema>

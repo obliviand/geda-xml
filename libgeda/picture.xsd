@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
+
+  <xs:include schemaLocation="types.xsd" />
+
+  <xs:element name="picture" type="libgeda:picture_" substitutionGroup="libgeda:primative_" />
+
+  <xs:complexType name="picture_" mixed="true">
+    <xs:attribute name="filename" type="xs:string" />
+    <xs:attributeGroup ref="libgeda:point_" />
+    <xs:attribute name="width" type="xs:nonNegativeInteger" />
+    <xs:attribute name="height" type="xs:nonNegativeInteger" />
+    <xs:attribute name="angle" type="libgeda:object_angle_" />
+    <xs:attribute name="mirrored" type="libgeda:object_mirrored_" />
+  </xs:complexType>
+</xs:schema>

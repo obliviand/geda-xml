@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns:libgpcb="http://www.gpleda.org/schemas/geda-gaf/libgpcb"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgpcb">
+
+  <xs:include schemaLocation="types.xsd" />
+  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+             schemaLocation="../libgeda/types.xsd" />
+
+  <xs:element name="connect" type="libgpcb:connect_" />
+
+  <xs:complexType name="connect_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile Connect
+
+@syntax
+Connect ("PinPad")
+@end syntax
+
+@table @var
+@item PinPad
+The name of a pin or pad which is included in this net.  Pin and Pad
+names are named by the refdes and pin name, like @code{"U14-7"} for
+pin 7 of U14, or @code{"T4-E"} for pin E of T4.
+@end table
+
+%end-doc */
+      </xs:documentation>
+      <xs:appinfo>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:attribute name="refdes" type="xs:string" use="required" />
+    <xs:attribute name="pin" type="xs:string" use="required" />
+  </xs:complexType>
+</xs:schema>

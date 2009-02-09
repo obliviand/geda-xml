@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:libgpcb="http://www.gpleda.org/schemas/geda-gaf/libgpcb"
+           xmlns:gaf="http://www.gpleda.org/schemas/geda-gaf"
+           xmlns:pcb="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
+
+  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgpcb"
+             schemaLocation="libgpcb/types.xsd" />
+  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf"
+             schemaLocation="gaf.xsd" />
+
+  <xs:element name="pcb" type="pcb:pcb_" substitutionGroup="gaf:primative_" />
+  
+  <xs:complexType name="pcb_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile 00pcb
+@nodetype subsection
+@nodename %s syntax
+
+A special note about units: Older versions of @code{pcb} used mils
+(1/1000 inch) as the base unit; a value of 500 in the file meant
+half an inch.  Newer versions uses a "high resolution" syntax,
+where the base unit is 1/100 of a mil (0.000010 inch); a value of 500 in
+the file means 5 mils.  As a general rule, the variants of each entry
+listed below which use square brackets are the high resolution formats
+and use the 1/100 mil units, and the ones with parentheses are the older
+variants and use 1 mil units.  Note that when multiple variants
+are listed, the most recent (and most preferred) format is the first
+listed.
+
+Symbolic and numeric flags (SFlags and NFlags) are described in
+@ref{Object Flags}.
+
+%end-doc */
+      </xs:documentation>
+      <xs:documentation>
+/* %start-doc pcbfile PCB
+
+@syntax
+PCB ["Name" Width Height]
+PCB ("Name" Width Height]
+PCB ("Name")
+@end syntax
+
+@table @var
+@item Name
+Name of the PCB project
+@item Width Height
+Size of the board
+@end table
+
+If you don't specify the size of the board, a very large default is
+chosen.
+
+%end-doc */
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element ref="libgpcb:primative_" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="width" type="xs:nonNegativeInteger" use="optional" />
+    <xs:attribute name="height" type="xs:nonNegativeInteger" use="optional" />
+    <xs:attribute name="type" type="libgpcb:units_" use="optional" />
+    <xs:attribute name="version" type="libgpcb:version_" use="required" />
+  </xs:complexType>
+</xs:schema>

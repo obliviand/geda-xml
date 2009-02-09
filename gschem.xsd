@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	   xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns:gaf="http://www.gpleda.org/schemas/geda-gaf" 
+	   xmlns:gschem="http://www.gpleda.org/schemas/geda-gaf/gschem"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/gschem">
+
+  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+             schemaLocation="libgeda/types.xsd" />
+  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf"
+             schemaLocation="gaf.xsd" />
+
+  <xs:element name="gschem" type="gschem:gschem_" substitutionGroup="gaf:primative_" />
+
+  <xs:complexType name="gschem_">
+    <xs:attribute name="version" type="libgeda:version_stable_" use="required" />
+    <xs:attribute ref="libgeda:fileformat_version" use="required" />
+  </xs:complexType>
+  
+</xs:schema>

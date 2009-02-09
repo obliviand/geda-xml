@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns:libgpcb="http://www.gpleda.org/schemas/geda-gaf/libgpcb"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgpcb">
+
+  <xs:include schemaLocation="types.xsd" />
+  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+             schemaLocation="../libgeda/types.xsd" />
+
+  <xs:element name="element-line" type="libgpcb:element_line_" substitutionGroup="libgpcb:element_primative_" />
+
+  <xs:complexType name="element_line_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile ElementLine
+
+@syntax
+ElementLine [X1 Y1 X2 Y2 Thickness]
+ElementLine (X1 Y1 X2 Y2 Thickness)
+@end syntax
+
+@table @var
+@item X1 Y1 X2 Y2
+Coordinates of the endpoints of the line.  These are relative to the
+Element's mark point for new element formats, or absolute for older
+formats.
+@item Thickness
+The width of the silk for this line.
+@end table
+
+%end-doc */
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attributeGroup ref="libgpcb:line_attributes_" />
+  </xs:complexType>
+  
+</xs:schema>
