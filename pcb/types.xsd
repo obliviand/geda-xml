@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
+
+  <xs:include schemaLocation="arc.xsd" />
+  <xs:include schemaLocation="attribute.xsd" />
+  <xs:include schemaLocation="cursor.xsd" />
+  <xs:include schemaLocation="drc.xsd" />
+  <xs:include schemaLocation="element/element.xsd" />
+  <xs:include schemaLocation="flags.xsd" />
+  <xs:include schemaLocation="grid.xsd" />
+  <xs:include schemaLocation="groups.xsd" />
+  <xs:include schemaLocation="layer.xsd" />
+  <xs:include schemaLocation="line.xsd" />
+  <xs:include schemaLocation="netlist/netlist.xsd" />
+  <xs:include schemaLocation="polyarea.xsd" />
+  <xs:include schemaLocation="polygon.xsd" />
+  <xs:include schemaLocation="rat.xsd" />
+  <xs:include schemaLocation="styles.xsd" />
+  <xs:include schemaLocation="symbol/symbol.xsd" />
+  <xs:include schemaLocation="text.xsd" />
+  <xs:include schemaLocation="thermal.xsd" />
+  <xs:include schemaLocation="via.xsd" />
+
+  <xs:element name="primative" abstract="true" />
+
+  <xs:simpleType name="units_">
+    <xs:annotation>
+      <xs:documentation>
+        This is only used when the measurements should be interpreted as 1 mil units.
+        If it does not exist then it will be interpreted as 1/100 mil units.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="mils" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="direction_">
+    <xs:annotation>
+      <xs:documentation>
+        0 means text is drawn left to right, 1 means up, 2 means right to left
+        (i.e. upside down), and 3 means down.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="left-to-right">
+        <xs:annotation>
+          <xs:appinfo>0</xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="up">
+        <xs:annotation>
+          <xs:appinfo>1</xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="right-to-left">
+        <xs:annotation>
+          <xs:appinfo>2</xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="down">
+        <xs:annotation>
+          <xs:appinfo>3</xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="coordinate_type_">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="relative" />
+      <xs:enumeration value="absolute" />
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

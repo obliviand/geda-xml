@@ -1,18 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           elementFormDefault="qualified"
            targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
 
   <xs:include schemaLocation="types.xsd" />
 
+  <!--
+    Long element definition
+    -->
   <xs:attributeGroup name="net_attributes_">
-    <xs:attributeGroup ref="libgeda:end_points_" />
-    <xs:attribute name="color" type="libgeda:object_color_" use="required" />
+    <xs:attributeGroup ref="end_points_" />
+    <xs:attribute name="color" type="object_color_" use="required" />
   </xs:attributeGroup>
   
   <xs:complexType name="net_">
-    <xs:attributeGroup ref="libgeda:net_attributes_" />
+    <xs:attributeGroup ref="net_attributes_" />
   </xs:complexType>
+
+  <!--
+    Short element definition
+    -->
+  <xs:element name="n" type="net-short_" />
+
+  <xs:complexType name="net-short_">
+    <xs:sequence>
+      <xs:element ref="attr" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="p" type="net-parameters_" />
+  </xs:complexType>
+
+  <xs:simpleType name="net-parameters_">
+    <xs:annotation>
+      <xs:documentation>
+        <!--
+          This restriction covers both the older file format version and the newer.
+          Color is also bounded to the MAX_COLOR value.
+          Further checking can be implemented via schematron, etc...
+        -->        
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(\d+\s){4}([0-9]|1[0-9]|2[0-5])" />
+    </xs:restriction>
+  </xs:simpleType>
 
 </xs:schema>

@@ -1,44 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           elementFormDefault="qualified"
            targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
 
   <xs:include schemaLocation="types.xsd" />
 
-  <xs:element name="path" type="libgeda:path_" substitutionGroup="libgeda:primative_" />
+  <!--
+    Long element definition
+    -->
+  <xs:element name="path" type="path_" substitutionGroup="primative" />
 
   <xs:attributeGroup name="path_attributes_">
-    <xs:attribute name="color" type="libgeda:object_color_" use="required" />
+    <xs:attribute name="color" type="object_color_" use="required" />
     <xs:attribute name="width" type="xs:nonNegativeInteger" use="required" />
-    <xs:attribute name="capstyle" type="libgeda:object_end_" use="required" />
-    <xs:attributeGroup ref="libgeda:dashstyle_" />
-    <xs:attributeGroup ref="libgeda:filltype_" />
+    <xs:attribute name="capstyle" type="object_end_" use="required" />
+    <xs:attributeGroup ref="dashstyle_" />
+    <xs:attributeGroup ref="filltype_" />
   </xs:attributeGroup>
   
   <xs:complexType name="path_">
     <xs:sequence>
-      <xs:element ref="libgeda:path_command_" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element ref="path_command_" minOccurs="1" maxOccurs="unbounded"/>
       <xs:element name="closepath" minOccurs="1" maxOccurs="unbounded" />
     </xs:sequence>
-    <xs:attributeGroup ref="libgeda:path_attributes_" />
+    <xs:attributeGroup ref="path_attributes_" />
   </xs:complexType>
 
   <xs:element name="path_command_" abstract="true" />
 
   <xs:complexType name="path_moveto_">
-    <xs:attributeGroup ref="libgeda:point_" />
+    <xs:attributeGroup ref="point_" />
   </xs:complexType>
-  <xs:element name="moveto" type="libgeda:path_moveto_" substitutionGroup="libgeda:path_command_" />
+  <xs:element name="moveto" type="path_moveto_" substitutionGroup="path_command_" />
   
   <xs:complexType name="path_lineto_">
-    <xs:attributeGroup ref="libgeda:point_" />
+    <xs:attributeGroup ref="point_" />
   </xs:complexType>
-  <xs:element name="lineto" type="libgeda:path_lineto_" substitutionGroup="libgeda:path_command_" />
+  <xs:element name="lineto" type="path_lineto_" substitutionGroup="path_command_" />
   
   <xs:complexType name="path_curveto_">
-    <xs:attributeGroup ref="libgeda:end_points_" />
-    <xs:attributeGroup ref="libgeda:point_" />
+    <xs:attributeGroup ref="end_points_" />
+    <xs:attributeGroup ref="point_" />
   </xs:complexType>
-  <xs:element name="curveto" type="libgeda:path_curveto_" substitutionGroup="libgeda:path_command_" />
+  <xs:element name="curveto" type="path_curveto_" substitutionGroup="path_command_" />
+
+  <!--
+    Short element definition
+    -->
+  <xs:element name="h" type="path-short_" substitutionGroup="primative" />
+
+  <xs:complexType name="path-short_">
+    <xs:sequence>
+      <xs:element name="m" type="m-path_" maxOccurs="unbounded" />
+      <xs:choice maxOccurs="unbounded">
+        <xs:element name="l" type="l-path_" />
+        <xs:element name="c" type="c-path_" />
+      </xs:choice>
+      <xs:element name="z" />
+    </xs:sequence>
+    <xs:attribute name="p" type="path-parameters_" />
+  </xs:complexType>
+
+  <xs:complexType name="m-path_">
+    <xs:attribute name="p" type="path-coordinate_" />
+  </xs:complexType>
+  
+  <xs:complexType name="l-path_">
+    <xs:attribute name="p" type="path-coordinate_" />
+  </xs:complexType>
+
+  <xs:complexType name="c-path_">
+    <xs:attribute name="p" type="path-complex-coordinate_" />
+  </xs:complexType>
+  
+  <xs:simpleType name="path-coordinate_">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="\d+,\d+" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="path-complex-coordinate_">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="\d+,\d+\s\d+,\d+\s\d+\d+" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="path-parameters_">
+    <xs:annotation>
+      <xs:documentation>
+        <!--
+          Color is also bounded to the MAX_COLOR value.
+          Further checking can be implemented via schematron, etc...
+        -->        
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="([0-9]|1[0-9]|2[0-5])\s\d+\s[0-2]\s0\s-1\s-1\s(0|1|4)\s-1\s-1\s-1\s-1\s-1\s\d+">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against dashstyle = 0 and filltype = 0-1,4
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+      <xs:pattern value="([0-9]|1[0-9]|2[0-5])\s\d+\s[0-2]\s1\s-1\s\d+\s(0|1|4)\s-1\s-1\s-1\s-1\s-1\s\d+">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against dashstyle = 1 and filltype = 0-1,4
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+      <xs:pattern value="([0-9]|1[0-9]|2[0-5])\s\d+\s[0-2]\s[2-4]\s\d+\s\d+\s(0|1|4)\s-1\s-1\s-1\s-1\s-1\s\d+">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against dashstyle = 2-4 and filltype = 0-1,4
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+      <xs:pattern value="([0-9]|1[0-9]|2[0-5])\s\d+\s[0-2]\s0\s-1\s-1\s2\s\d+\s\d+\s\d+\s\d+\s\d+\s\d+">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against dashstyle = 0 and filltype = 2 (FILLING_MESH)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+      <xs:pattern value="([0-9]|1[0-9]|2[0-5])\s\d+\s[0-2]\s1\s-1\s\d+\s2\s\d+\s\d+\s\d+\s\d+\s\d+\s\d+">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against dashstyle = 1 and filltype = 2 (FILLING_MESH)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+      <xs:pattern value="([0-9]|1[0-9]|2[0-5])\s\d+\s[0-2]\s[2-4]\s\d+\s\d+\s2\s\d+\s\d+\s\d+\s\d+\s\d+\s\d+">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against dashstyle = 2-4 and filltype = 2 (FILLING_MESH)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+      <xs:pattern value="([0-9]|1[0-9]|2[0-5])\s\d+\s[0-2]\s0\s-1\s-1\s2\s\d+\s\d+\s\d+\s-1\s-1\s\d+">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against dashstyle = 0 and filltype = 3 (FILLING_HATCH)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+      <xs:pattern value="([0-9]|1[0-9]|2[0-5])\s\d+\s[0-2]\s1\s-1\s\d+\s2\s\d+\s\d+\s\d+\s-1\s-1\s\d+">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against dashstyle = 1 and filltype = 3 (FILLING_HATCH)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+      <xs:pattern value="([0-9]|1[0-9]|2[0-5])\s\d+\s[0-2]\s[2-4]\s\d+\s\d+\s2\s\d+\s\d+\s\d+\s-1\s-1\s\d+">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against dashstyle = 2-4 and filltype = 3 (FILLING_HATCH)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+    </xs:restriction>
+  </xs:simpleType>
+
 </xs:schema>

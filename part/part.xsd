@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.gpleda.org/schemas/geda-gaf/part"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns:pcb="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/part">
+
+  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/pcb"
+             schemaLocation="../pcb/pcb.xsd" />
+  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+             schemaLocation="../libgeda/libgeda.xsd" />
+
+  <xs:complexType name="part">
+    <xs:sequence>
+      <xs:element ref="primative" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="part" type="part" />
+  <xs:element name="primative" abstract="true" />
+
+
+  <xs:simpleType name="version">
+    <xs:annotation>
+      <xs:documentation>
+        <!--
+          Development versions include: 19990601, 19990610, 19990705, 19990829, 19990919, 19991011, 20000220, 20000704,
+                                        20001006, 20001217, 20010304, 20010708, 20010722, 20020209, 20020414, 20020527,
+                                        20020825, 20021103, 20030223, 20030525, 20030901, 20040111, 20040710, 20041228,
+                                        20050313, 20050820, 20060123, 20060824, 20060906, 20061020, 20070216, 20070705,
+                                        20070708, 20070818, 20071229, 20080110
+          Stable versions include: 20070526, 20070626, 20070902, 20071231, 20080127
+          (?:(?:0?[1-9])|(?:[12]\d)|(?:3(?:(?:0)|(?:1(?![\\.-/](?:(?:0?[2469])|(?:11))))))(?!(?:[\\.-/]\d{1,2}[\\.-/])(?:(?:[02468][048]00)|(?:(?:\d{2})?(?:(?:[2468][048])|(?:[13579][26])|(?:0[48]))))))[\\.-/](?:(?:0?[1-9])|(?:1[0-2]))[\\.-/](?:(?:\d{2})|(?:1\d{3})|(?:\d1\d{2})|(?:\d{2}1\d)|(?:\d{3}1))
+        -->
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[1-9][0-9][0-9][0-9](0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])">
+        <xs:annotation>
+          <xs:documentation>
+            Just remember to add a digit to the year if this program is still in use after the year 9999 :)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+      <xs:pattern value="[1-9][0-9][0-9][0-9](0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])\s([1-9]|[1-9]\d*)" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="pintypes_">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="in" />
+      <xs:enumeration value="out" />
+      <xs:enumeration value="io" />
+      <xs:enumeration value="oc" />
+      <xs:enumeration value="oe" />
+      <xs:enumeration value="pas" />
+      <xs:enumeration value="tp" />
+      <xs:enumeration value="tri" />
+      <xs:enumeration value="clk" />
+      <xs:enumeration value="pwr" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="pins_">
+    <xs:sequence>
+      <xs:element name="p" type="pin_" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="pin_">
+    <xs:complexContent>
+      <xs:extension base="libgeda:pin-short_">
+        <xs:attribute name="number" type="pin_number_" use="required" />
+        <xs:attribute name="seq" type="xs:nonNegativeInteger" use="required" />
+        <xs:attribute name="type" type="pintypes_" use="required" />
+        <xs:attribute name="label" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="pin_number_">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(\p{N}+|\p{L}+)" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="symbol_">
+    <xs:choice maxOccurs="unbounded">
+      <xs:element name="pins" type="pins_" />
+      <xs:element ref="libgeda:primative" />
+    </xs:choice>
+    <xs:attribute name="version" type="version" use="required" />
+    <xs:attribute name="angle" type="libgeda:object_angle_" use="optional" />
+    <xs:attribute name="mirror" type="libgeda:object_mirrored_" use="optional" />
+    <xs:attribute name="device" type="xs:string" use="required" />
+    <xs:attribute name="graphical" type="xs:boolean" use="optional" />
+    <xs:attribute name="description" type="xs:string" use="optional" />
+    <xs:attribute name="author" type="xs:string" use="optional" />
+    <xs:attribute name="selectable" type="libgeda:object_selectable_" use="optional" />
+  </xs:complexType>
+  <xs:element name="symbol" type="symbol_" substitutionGroup="primative" />
+  
+  <xs:complexType name="elements">
+    <xs:sequence>
+      <xs:element ref="pcb:element" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="elements" type="elements" substitutionGroup="primative" />
+  
+  <xs:complexType name="documentation_" mixed="true">
+    <xs:attribute name="uri" type="xs:anyURI" />
+  </xs:complexType>
+  <xs:element name="documentation" type="documentation_" substitutionGroup="primative" />
+
+</xs:schema>

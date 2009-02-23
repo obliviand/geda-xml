@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
+
+  <xs:include schemaLocation="netlist.xsd" />
+  <xs:include schemaLocation="connect.xsd" />
+  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+             schemaLocation="../../libgeda/types.xsd" />
+
+  <xs:element name="net" type="net_" />
+
+  <xs:complexType name="net_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile Net
+
+@syntax
+Net ("Name" "Style") (
+@ @ @ @dots{} connects @dots{}
+)
+@end syntax
+
+@table @var
+@item Name
+The name of this net.
+@item Style
+The routing style that should be used when autorouting this net.
+@end table
+
+%end-doc */
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element ref="connect" />
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="style" type="xs:string" use="required" />
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
+
+  <xs:complexType name="groups_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile Groups
+
+@syntax
+Groups("String")
+@end syntax
+
+@table @var
+@item String
+
+Encodes the layer grouping information.  Each group is separated by a
+colon, each member of each group is separated by a comma.  Group
+members are either numbers from @code{1}..@var{N} for each layer, and
+the letters @code{c} or @code{s} representing the component side and
+solder side of the board.  Including @code{c} or @code{s} marks that
+group as being the top or bottom side of the board.
+
+@example
+Groups("1,2,c:3:4:5,6,s:7,8")
+@end example
+
+@end table
+
+%end-doc */
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="group">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="layer">
+              <xs:complexType>
+                <xs:attribute name="number" type="xs:nonNegativeInteger" use="required"/>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute name="type" use="optional">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="component" />
+                <xs:enumeration value="solder" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

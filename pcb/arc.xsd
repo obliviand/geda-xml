@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
+
+  <xs:include schemaLocation="types.xsd" />
+  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+             schemaLocation="../libgeda/types.xsd" />
+
+  <xs:element name="arc" type="arc_" substitutionGroup="primative" />
+
+  <xs:attributeGroup name="arc_attributes_">
+    <xs:attributeGroup ref="libgeda:point_" />
+    <xs:attributeGroup ref="libgeda:dimensions_" />
+    <xs:attribute name="thickness" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="start-angle" type="xs:decimal" use="required" />
+    <xs:attribute name="delta-angle" type="xs:decimal" use="required" />
+  </xs:attributeGroup>
+
+  <xs:complexType name="arc_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile Arc
+
+@syntax
+Arc [X Y Width Height Thickness Clearance StartAngle DeltaAngle SFlags]
+Arc (X Y Width Height Thickness Clearance StartAngle DeltaAngle NFlags)
+Arc (X Y Width Height Thickness StartAngle DeltaAngle NFlags)
+@end syntax
+
+@table @var
+@item X Y
+Coordinates of the center of the arc.
+@item Width Height
+The width and height, from the center to the edge.  The bounds of the
+circle of which this arc is a segment, is thus @math{2*Width} by
+@math{2*Height}.
+@item Thickness
+The width of the copper trace which forms the arc.
+@item Clearance
+The amount of space cleared around the arc when the line passes
+through a polygon.  The clearance is added to the thickness to get the
+thickness of the clear; thus the space between the arc and the polygon
+is @math{Clearance/2} wide.
+@item StartAngle
+The angle of one end of the arc, in degrees.  In PCB, an angle of zero
+points left (negative X direction), and 90 degrees points down
+(positive Y direction).
+@item DeltaAngle
+The sweep of the arc.  This may be negative.  Positive angles sweep
+counterclockwise.
+@item SFlags
+Symbolic or numeric flags.
+@item NFlags
+Numeric flags.
+@end table
+
+%end-doc */
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attributeGroup ref="arc_attributes_" />
+    <xs:attribute name="clearance" type="xs:nonNegativeInteger" use="optional" />
+    <xs:attribute name="flags" type="xs:nonNegativeInteger" use="required" />
+  </xs:complexType>
+
+</xs:schema>

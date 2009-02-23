@@ -1,26 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           elementFormDefault="qualified"
            targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
 
   <xs:include schemaLocation="types.xsd" />
 
-  <xs:element name="arc" type="libgeda:arc_" substitutionGroup="libgeda:primative_" />
+  <!--
+    Long element definition
+    -->
+  <xs:element name="arc" type="arc_" substitutionGroup="primative" />
 
   <xs:attributeGroup name="arc_attributes_">
-    <xs:attributeGroup ref="libgeda:point_" />
+    <xs:attributeGroup ref="point_" />
     <xs:attribute name="radius" type="xs:nonNegativeInteger" use="required" />
     <xs:attribute name="startangle" type="xs:nonNegativeInteger" use="required" />
     <xs:attribute name="sweepangle" type="xs:nonNegativeInteger" use="required" />
-    <xs:attribute name="color" type="libgeda:object_color_" use="required" />
+    <xs:attribute name="color" type="object_color_" use="required" />
     <xs:attribute name="width" type="xs:nonNegativeInteger" use="required" />
-    <xs:attribute name="capstyle" type="libgeda:object_end_" use="required" />
-    <xs:attributeGroup ref="libgeda:dashstyle_" />
+    <xs:attribute name="capstyle" type="object_end_" use="required" />
+    <xs:attributeGroup ref="dashstyle_" />
   </xs:attributeGroup>
   
   <xs:complexType name="arc_">
-    <xs:attributeGroup ref="libgeda:arc_attributes_" />
+    <xs:sequence>
+      <xs:element ref="attr" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attributeGroup ref="arc_attributes_" />
   </xs:complexType>
 
+  <!--
+    Short element definition
+    -->
+  <xs:element name="a" type="arc-short_" substitutionGroup="primative" />
+
+  <xs:complexType name="arc-short_">
+    <xs:sequence>
+      <xs:element ref="attr" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="p" type="arc-parameters_" />
+  </xs:complexType>
+
+  <xs:simpleType name="arc-parameters_">
+    <xs:annotation>
+      <xs:documentation>
+        <!--
+          This restriction covers both the older file format version and the newer.
+          Same order (x1, y1, radius, start_angle, end_angle, color).
+          Radius is covered by the \p{N} parameter type.
+          Color is also bounded to the MAX_COLOR value.
+          Further checking can be implemented via schematron, etc...
+        -->
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(\d+\s){5}([0-9]|1[0-9]|2[0-5])">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against file format 20000704 and earlier.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+      <xs:pattern value="(\d+\s){5}([0-9]|1[0-9]|2[0-5])(\s\d+){3}(\s[-]?\d+){2}">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against releases after 20000704.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+    </xs:restriction>
+  </xs:simpleType>
 </xs:schema>

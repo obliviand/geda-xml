@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
+
+  <xs:complexType name="flags_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile Flags
+
+@syntax
+Flags(Number)
+@end syntax
+
+@table @var
+@item Number
+A number, whose value is normally given in hex, individual bits of which
+represent pcb-wide flags as defined in @ref{PCBFlags}.
+
+@end table
+
+%end-doc */
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="value" type="xs:hexBinary" />
+  </xs:complexType>
+
+</xs:schema>

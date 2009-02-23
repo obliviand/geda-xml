@@ -1,27 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           elementFormDefault="qualified"
            targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
 
   <xs:include schemaLocation="types.xsd" />
-  
+  <xs:include schemaLocation="pin.xsd" />
+
+  <!--
+    Long element definition
+    -->  
   <xs:complexType name="component_">
     <xs:sequence>
-      <xs:element ref="libgeda:primative_" />
+      <xs:element ref="primative" />
       <xs:element name="pins" minOccurs="0">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="pin" type="libgeda:pin_" />
+            <xs:element name="pin" type="pin_" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
     </xs:sequence>
-    <xs:attributeGroup ref="libgeda:point_" />
-    <xs:attribute name="selectable" type="libgeda:object_selectable_" use="required" />
-    <xs:attribute name="angle" type="libgeda:object_angle_" use="required" />
-    <xs:attribute name="mirror" type="libgeda:object_mirrored_" use="required" />
+    <xs:attributeGroup ref="point_" />
+    <xs:attribute name="selectable" type="object_selectable_" use="required" />
+    <xs:attribute name="angle" type="object_angle_" use="required" />
+    <xs:attribute name="mirror" type="object_mirrored_" use="required" />
     <xs:attribute name="basename" type="xs:string" use="required" />
   </xs:complexType>
+
+  <!--
+    Short element definition
+    -->
+  <xs:element name="c" type="component-short_" substitutionGroup="primative" />
+  
+  <xs:complexType name="component-short_">
+    <xs:sequence>
+      <xs:element ref="primative" />
+      <xs:element name="pins" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="pin" type="pin_" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="p" type="component-parameters_" />
+  </xs:complexType>
+
+  <xs:simpleType name="component-parameters_">
+    <xs:annotation>
+      <xs:documentation>
+        <!--
+          Further checking can be implemented via schematron, etc...          
+        -->
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(\d+\s){2}[0-1]\s(0|90|180|280)\s[0-1]\s.+" />
+    </xs:restriction>
+  </xs:simpleType>
 
 </xs:schema>

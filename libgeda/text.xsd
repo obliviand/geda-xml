@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           elementFormDefault="qualified"
            targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
 
   <xs:include schemaLocation="types.xsd" />
 
-  <xs:element name="text" type="libgeda:text_" substitutionGroup="libgeda:primative_" />
+  <!--
+    Long element definition
+    -->
+  <xs:element name="text" type="text_" substitutionGroup="primative" />
 
   <xs:simpleType name="text_alignment_">
     <xs:restriction base="xs:nonNegativeInteger">
@@ -15,20 +19,64 @@
   </xs:simpleType>
 
   <xs:attributeGroup name="text_attributes_">
-    <xs:attributeGroup ref="libgeda:point_" />
-    <xs:attribute name="color" type="libgeda:object_color_" use="required" />
+    <xs:attributeGroup ref="point_" />
+    <xs:attribute name="color" type="object_color_" use="required" />
     <xs:attribute name="size" type="xs:nonNegativeInteger" use="required" />
-    <xs:attribute name="visibility" type="libgeda:object_visible_" use="required" />
-    <xs:attribute name="show_name_value" type="libgeda:object_show_name_value_" use="required" />
-    <xs:attribute name="angle" type="libgeda:object_angle_" />
-    <xs:attribute name="alignment" type="libgeda:text_alignment_" />
+    <xs:attribute name="visibility" type="object_visible_" use="required" />
+    <xs:attribute name="show_name_value" type="object_show_name_value_" use="required" />
+    <xs:attribute name="angle" type="object_angle_" />
+    <xs:attribute name="alignment" type="text_alignment_" />
   </xs:attributeGroup>
   
-  <xs:complexType name="text_" mixed="true">
+  <xs:complexType name="text_">
     <xs:sequence>
       <xs:element name="string" type="xs:string" />
     </xs:sequence>
-    <xs:attributeGroup ref="libgeda:text_attributes_" />
+    <xs:attributeGroup ref="text_attributes_" />
   </xs:complexType>
 
+
+  <!--
+    Short element definition
+    -->
+  <xs:element name="t" type="text-short_" substitutionGroup="primative" />
+
+  <xs:complexType name="text-short_" mixed="true">
+    <xs:attribute name="p" type="text-parameters_" />
+  </xs:complexType>
+
+  <xs:simpleType name="text-parameters_">
+    <xs:annotation>
+      <xs:documentation>
+        <!--
+          This restriction covers both the older file format version and the newer.
+          Color is also bounded to the MAX_COLOR value.
+          Further checking can be implemented via schematron, etc...
+        -->        
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(\d*\s){2}([0-9]|1[0-9]|2[0-5])\s([2-9]|[1-9]\d+)\s[0-1]\s[0-3]\s(0|90|180|270)\s[0-8]\s([1-9]|[1-9]\d*)">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against fileformat version >= 1
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+      <xs:pattern value="(\d*\s){2}([0-9]|1[0-9]|2[0-5])\s([2-9]|[1-9]\d+)\s[0-1]\s[0-3]\s(0|90|180|270)">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against versions before 20000220
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+      <xs:pattern value="(\d*\s){2}([0-9]|1[0-9]|2[0-5])\s([2-9]|[1-9]\d+)\s[0-1]\s[0-3]\s(0|90|180|270)\s[0-8]">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against all other intermediate versions
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+    </xs:restriction>
+  </xs:simpleType>
 </xs:schema>

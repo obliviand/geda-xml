@@ -1,19 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           elementFormDefault="qualified"
            targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
 
   <xs:include schemaLocation="types.xsd" />
 
-  <xs:element name="picture" type="libgeda:picture_" substitutionGroup="libgeda:primative_" />
+  <!--
+    Long element definition
+    -->
+  <xs:element name="picture" type="picture_" substitutionGroup="primative" />
 
   <xs:complexType name="picture_" mixed="true">
     <xs:attribute name="filename" type="xs:string" />
-    <xs:attributeGroup ref="libgeda:point_" />
+    <xs:attributeGroup ref="point_" />
     <xs:attribute name="width" type="xs:nonNegativeInteger" />
     <xs:attribute name="height" type="xs:nonNegativeInteger" />
-    <xs:attribute name="angle" type="libgeda:object_angle_" />
-    <xs:attribute name="mirrored" type="libgeda:object_mirrored_" />
+    <xs:attribute name="angle" type="object_angle_" />
+    <xs:attribute name="mirrored" type="object_mirrored_" />
   </xs:complexType>
+
+  <!--
+    Short element definition
+    -->
+  <xs:element name="g" type="picture-short_" substitutionGroup="primative" />
+
+  <xs:complexType name="picture-short_" mixed="true">
+    <xs:sequence>
+      <xs:element ref="attr" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="p" type="picture-parameters_" />
+  </xs:complexType>
+
+  <xs:simpleType name="picture-parameters_">
+    <xs:annotation>
+      <xs:documentation>
+        <!--
+          This restriction covers both the older file format version and the newer.
+          Width and height are checked to make sure they are not zero.
+          Color is also bounded to the MAX_COLOR value.
+          Further checking can be implemented via schematron, etc...
+        -->        
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(\d+\s){2}(([1-9]|[1-9]\d+)\s){2}(0|90|180|270)\s[0-1]\s[0-1]">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against file format of picture.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+    </xs:restriction>
+  </xs:simpleType>
+
 </xs:schema>

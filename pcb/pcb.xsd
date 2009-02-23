@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
+  <xs:include schemaLocation="arc.xsd" />
+  <xs:include schemaLocation="attribute.xsd" />
+  <xs:include schemaLocation="cursor.xsd" />
+  <xs:include schemaLocation="drc.xsd" />
+  <xs:include schemaLocation="element/element.xsd" />
+  <xs:include schemaLocation="flags.xsd" />
+  <xs:include schemaLocation="grid.xsd" />
+  <xs:include schemaLocation="groups.xsd" />
+  <xs:include schemaLocation="layer.xsd" />
+  <xs:include schemaLocation="line.xsd" />
+  <xs:include schemaLocation="netlist/netlist.xsd" />
+  <xs:include schemaLocation="polyarea.xsd" />
+  <xs:include schemaLocation="polygon.xsd" />
+  <xs:include schemaLocation="rat.xsd" />
+  <xs:include schemaLocation="styles.xsd" />
+  <xs:include schemaLocation="symbol/symbol.xsd" />
+  <xs:include schemaLocation="text.xsd" />
+  <xs:include schemaLocation="thermal.xsd" />
+  <xs:include schemaLocation="via.xsd" />
+</xs:schema>

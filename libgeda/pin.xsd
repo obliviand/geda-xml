@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           elementFormDefault="qualified"
            targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
 
   <xs:include schemaLocation="types.xsd" />
@@ -13,25 +14,51 @@
   </xs:simpleType>
 
   <xs:attributeGroup name="pin_attributes_">
-    <xs:attributeGroup ref="libgeda:end_points_" />
-    <xs:attribute name="color" type="libgeda:object_color_" use="required" />
-    <xs:attribute name="pintype" type="libgeda:object_pin_" use="required" />
-    <xs:attribute name="whichend" type="libgeda:whichend_" use="required" />
+    <xs:attributeGroup ref="end_points_" />
+    <xs:attribute name="color" type="object_color_" use="required" />
+    <xs:attribute name="pintype" type="object_pin_" use="required" />
+    <xs:attribute name="whichend" type="whichend_" use="required" />
   </xs:attributeGroup>
   
   <xs:complexType name="pin_">
-    <xs:annotation>
-      <xs:appinfo>
-        <xsl:choose>
-          <xsl:when test="sqrt((@x2 - @x1)^2 + (@y2 - @y1)^2) = 0">
-            <xsl:message terminate="yes">
-              <xsl:text>pin length cannot be 0</xsl:text>
-            </xsl:message>
-          </xsl:when>
-        </xsl:choose>
-      </xs:appinfo>
-    </xs:annotation>
-    <xs:attributeGroup ref="libgeda:pin_attributes_" />
+    <xs:attributeGroup ref="pin_attributes_" />
   </xs:complexType>
+
+  <!--
+    Short element definition
+    -->
+  <xs:element name="p" type="pin-short_" substitutionGroup="primative" />
+
+  <xs:complexType name="pin-short_" mixed="true">
+    <xs:attribute name="p" type="pin-parameters_" />
+  </xs:complexType>
+
+  <xs:simpleType name="pin-parameters_">
+    <xs:annotation>
+      <xs:documentation>
+        <!--
+          This restriction covers both the older file format version and the newer.
+          Color is also bounded to the MAX_COLOR value.
+          Further checking can be implemented via schematron, etc...
+        -->
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(\d+\s){4}([0-9]|1[0-9]|2[0-5])">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against version 20020825 or earlier
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+      <xs:pattern value="(\d+\s){4}([0-9]|1[0-9]|2[0-5])\s[0-1]\s[0-1]">
+        <xs:annotation>
+          <xs:documentation>
+            Validates against all other versions
+          </xs:documentation>
+        </xs:annotation>
+      </xs:pattern>
+    </xs:restriction>
+  </xs:simpleType>
 
 </xs:schema>

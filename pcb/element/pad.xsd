@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
+
+  <xs:include schemaLocation="element.xsd" />
+  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+             schemaLocation="../../libgeda/types.xsd" />
+
+  <xs:element name="pad" type="pad_" substitutionGroup="element_primative" />
+
+  <xs:attributeGroup name="pad_attributes_">
+    <xs:attributeGroup ref="libgeda:end_points_" />
+    <xs:attribute name="type" type="coordinate_type_" use="required" />
+    <xs:attribute name="thickness" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="clearance" type="xs:nonNegativeInteger" use="optional" />
+    <xs:attribute name="mask" type="xs:nonNegativeInteger" use="optional" />
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="number" type="xs:nonNegativeInteger" use="optional" />
+    <xs:attribute name="flags" type="xs:string" use="required" />
+  </xs:attributeGroup>
+
+  <xs:complexType name="pad_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile Pad
+
+@syntax
+Pad [rX1 rY1 rX2 rY2 Thickness Clearance Mask "Name" "Number" SFlags]
+Pad (rX1 rY1 rX2 rY2 Thickness Clearance Mask "Name" "Number" NFlags)
+Pad (aX1 aY1 aX2 aY2 Thickness "Name" "Number" NFlags)
+Pad (aX1 aY1 aX2 aY2 Thickness "Name" NFlags)
+@end syntax
+
+@table @var
+@item rX1 rY1 rX2 rY2
+Coordinates of the endpoints of the pad, relative to the element's
+mark.  Note that the copper extends beyond these coordinates by half
+the thickness.  To make a square or round pad, specify the same
+coordinate twice.
+@item aX1 aY1 aX2 aY2
+Same, but absolute coordinates of the endpoints of the pad.
+@item Thickness
+width of the pad.
+@item Clearance
+add to thickness to get clearance width.
+@item Mask
+width of solder mask opening.
+@item Name
+name of pin
+@item Number
+number of pin
+@item SFlags
+symbolic or numerical flags
+@item NFlags
+numerical flags only
+@end table
+
+%end-doc */
+       </xs:documentation>
+    </xs:annotation>
+    <xs:attributeGroup ref="pad_attributes_" />
+  </xs:complexType>
+</xs:schema>

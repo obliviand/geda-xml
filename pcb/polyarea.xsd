@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
+
+  <xs:include schemaLocation="types.xsd" />
+  
+  <xs:complexType name="polyarea_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile PolyArea
+
+@syntax
+PolyArea [Area]
+@end syntax
+
+@table @var
+@item Area 
+Minimum area of polygon island to retain. If a polygon has clearances that cause an isolated island to be created, 
+then will only be retained if the area exceeds this minimum area.
+@end table
+
+%end-doc */
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="area" type="xs:decimal" use="required" />
+  </xs:complexType>
+
+</xs:schema>

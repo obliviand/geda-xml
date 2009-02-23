@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           elementFormDefault="qualified"
            targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
 
   <xs:include schemaLocation="arc.xsd" />
@@ -15,11 +16,9 @@
   <xs:include schemaLocation="net.xsd" />
   <xs:include schemaLocation="path.xsd" />
   <xs:include schemaLocation="picture.xsd" />
-  <xs:include schemaLocation="pin.xsd" />
   <xs:include schemaLocation="text.xsd" />
-  <xs:include schemaLocation="version.xsd" />
 
-  <xs:element name="primative_" abstract="true" />
+  <xs:element name="primative" abstract="true" />
 
   <xs:simpleType name="object_end_">
     <xs:annotation>
@@ -80,7 +79,7 @@
         </xsl:choose>
       </xs:appinfo>
     </xs:annotation>
-    <xs:attribute name="dashstyle" type="libgeda:object_type_" use="required" />
+    <xs:attribute name="dashstyle" type="object_type_" use="required" />
     <xs:attribute name="dashlength" type="xs:nonNegativeInteger" use="optional" />
     <xs:attribute name="dashspace" type="xs:nonNegativeInteger" use="optional" />
   </xs:attributeGroup>
@@ -113,7 +112,7 @@
         </xsl:choose>
       </xs:appinfo>
     </xs:annotation>
-    <xs:attribute name="filltype" type="libgeda:object_filling_" use="required" />
+    <xs:attribute name="filltype" type="object_filling_" use="required" />
     <xs:attribute name="fillwidth" type="xs:nonNegativeInteger" use="optional" />
     <xs:attribute name="angle1" type="xs:nonNegativeInteger" use="optional" />
     <xs:attribute name="pitch1" type="xs:nonNegativeInteger" use="optional" />
@@ -241,8 +240,8 @@
   </xs:attributeGroup>
 
   <xs:attributeGroup name="end_points_">
-    <xs:attributeGroup ref="libgeda:first_coordinate_" />
-    <xs:attributeGroup ref="libgeda:second_coordinate_" />
+    <xs:attributeGroup ref="first_coordinate_" />
+    <xs:attributeGroup ref="second_coordinate_" />
   </xs:attributeGroup>
   
   <xs:attributeGroup name="dimensions_">
@@ -252,7 +251,7 @@
   </xs:attributeGroup>
 
   <xs:complexType name="coordinate_">
-    <xs:attributeGroup ref="libgeda:point_" />
+    <xs:attributeGroup ref="point_" />
   </xs:complexType>
 
   <xs:simpleType name="object_angle_">

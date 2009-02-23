@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
+
+  <xs:include schemaLocation="element.xsd" />
+  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+             schemaLocation="../../libgeda/types.xsd" />
+
+  <xs:element name="mark" type="mark_" substitutionGroup="element_primative" />
+
+  <xs:complexType name="mark_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile Mark
+
+@syntax
+Mark [X Y]
+Mark (X Y)
+@end syntax
+
+@table @var
+@item X Y
+Coordinates of the Mark, for older element formats that don't have
+the mark as part of the Element line.
+@end table
+
+%end-doc */
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attributeGroup ref="libgeda:point_" />
+  </xs:complexType>
+
+</xs:schema>

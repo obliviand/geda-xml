@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
+
+  <xs:include schemaLocation="symbol.xsd" />
+  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+             schemaLocation="../../libgeda/types.xsd" />
+
+  <xs:element name="symbol-line" type="symbol_line_" />
+
+  <xs:complexType name="symbol_line_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile SymbolLine
+
+@syntax
+SymbolLine [X1 Y1 X2 Y2 Thickness]
+SymbolLine (X1 Y1 X2 Y2 Thickness)
+@end syntax
+
+@table @var
+@item X1 Y1 X2 Y2
+The endpoints of this line.
+@item Thickness
+The width of this line.
+@end table
+
+%end-doc */
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attributeGroup ref="line_attributes_" />
+  </xs:complexType>
+</xs:schema>

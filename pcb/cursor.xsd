@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
+
+  <xs:include schemaLocation="types.xsd" />
+
+  <xs:complexType name="cursor_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile Cursor
+
+@syntax
+Cursor [X Y Zoom]
+Cursor (X Y Zoom)
+@end syntax
+
+@table @var
+@item X Y
+Location of the cursor when the board was saved.
+@item Zoom
+The current zoom factor.  Note that a zoom factor of "0" means 1 mil
+per screen pixel, N means @math{2^N} mils per screen pixel, etc.  The
+first variant accepts floating point numbers.  The special value
+"1000" means "zoom to fit"
+@end table
+
+%end-doc */
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="x" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="y" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="zoom" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="units" type="units_" use="optional" />    
+  </xs:complexType>
+
+</xs:schema>

@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
            xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           elementFormDefault="qualified"
            targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
 
   <xs:include schemaLocation="types.xsd"/>
-  <xs:include schemaLocation="text.xsd"/>
-
-  <xs:element name="attribute" type="libgeda:attribute_" substitutionGroup="libgeda:primative_" />
+  
+  <!--
+    Long element definition
+    -->
+  <xs:element name="attribute" type="attribute_" substitutionGroup="primative" />
 
   <xs:complexType name="attribute_" mixed="true">
-    <xs:attributeGroup ref="libgeda:text_attributes_" />
+    <xs:attributeGroup ref="text_attributes_" />
     <xs:attribute name="name" type="xs:string"/>
     <xs:attribute name="value" type="xs:string"/>
   </xs:complexType>
   
+  
+  <!--
+    Short element definition
+    -->
+  <xs:element name="attr" type="attr-short_" substitutionGroup="primative" />
+
+  <xs:complexType name="attr-short_" mixed="true">
+    <xs:attribute name="p" type="text-parameters_" />
+    <xs:attribute name="n" type="xs:string" />
+    <xs:attribute name="v" type="xs:string" />
+  </xs:complexType>  
 </xs:schema>

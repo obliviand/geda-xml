@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
+
+  <xs:complexType name="styles_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile Styles
+
+@syntax
+Styles("String")
+@end syntax
+
+@table @var
+@item String
+
+Encodes the four routing styles @code{pcb} knows about.  The four styles
+are separated by colons.  Each style consists of five parameters as follows:
+
+@table @var
+@item Name
+The name of the style.
+@item Thickness
+Width of lines and arcs.
+@item Diameter
+Copper diameter of pins and vias.
+@item Drill
+Drill diameter of pins and vias.
+@item Keepaway
+Minimum spacing to other nets.  If omitted, 10 mils is the default.
+
+@end table
+
+@end table
+
+@example
+Styles("Signal,10,40,20:Power,25,60,35:Fat,40,60,35:Skinny,8,36,20")
+Styles["Logic,1000,3600,2000,1000:Power,2500,6000,3500,1000:
+@ @ @ Line,4000,6000,3500,1000:Breakout,600,2402,1181,600"]
+@end example
+
+@noindent
+Note that strings in actual files cannot span lines; the above example
+is split across lines only to make it readable.
+
+%end-doc */   
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="style" type="style_" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="style_">
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="thickness" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="copper-diameter" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="drill-diameter" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="keepaway" type="xs:nonNegativeInteger" use="optional" />
+  </xs:complexType>
+</xs:schema>

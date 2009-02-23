@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
+
+  <xs:include schemaLocation="types.xsd" />
+  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+             schemaLocation="../libgeda/types.xsd" />
+
+  <xs:element name="line" type="line_" substitutionGroup="primative" />
+
+  <xs:attributeGroup name="line_attributes_">
+    <xs:attributeGroup ref="libgeda:end_points_" />
+    <xs:attribute name="thickness" type="xs:nonNegativeInteger" />
+  </xs:attributeGroup>
+
+  <xs:complexType name="line_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile Line
+
+@syntax
+Line [X1 Y1 X2 Y2 Thickness Clearance SFlags]
+Line (X1 Y1 X2 Y2 Thickness Clearance NFlags)
+Line (X1 Y1 X2 Y2 Thickness NFlags)
+@end syntax
+
+@table @var
+@item X1 Y1 X2 Y2
+The end points of the line
+@item Thickness
+The width of the line
+@item Clearance
+The amount of space cleared around the line when the line passes
+through a polygon.  The clearance is added to the thickness to get the
+thickness of the clear; thus the space between the line and the
+polygon is @math{Clearance/2} wide.
+@item SFlags
+Symbolic or numeric flags
+@item NFlags
+Numeric flags.
+@end table
+
+%end-doc */
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attributeGroup ref="line_attributes_" />
+    <xs:attribute name="clearance" type="xs:nonNegativeInteger" />
+    <xs:attribute name="flags" type="xs:nonNegativeInteger" />
+  </xs:complexType>        
+
+</xs:schema>

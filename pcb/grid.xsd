@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
+
+  <xs:include schemaLocation="types.xsd" />
+
+  <xs:complexType name="grid_">
+    <xs:annotation>
+      <xs:documentation>
+/* %start-doc pcbfile Grid
+
+@syntax
+Grid [Step OffsetX OffsetY Visible]
+Grid (Step OffsetX OffsetY Visible)
+Grid (Step OffsetX OffsetY)
+@end syntax
+
+@table @var
+@item Step
+Distance from one grid point to adjacent points.  This value may be a
+floating point number for the first two variants.
+@item OffsetX OffsetY
+The "origin" of the grid.  Normally zero.
+@item Visible
+If non-zero, the grid will be visible on the screen.
+@end table
+
+%end-doc */      
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="step" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="offsetx" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="offsety" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="visible" type="xs:boolean" use="optional" />
+    <xs:attribute name="units" type="units_" use="optional" />
+  </xs:complexType>
+
+</xs:schema>

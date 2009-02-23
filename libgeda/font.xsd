@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           xmlns="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+           elementFormDefault="qualified"
            targetNamespace="http://www.gpleda.org/schemas/geda-gaf/libgeda">
-  
+
+  <!--
+    Long element definition
+    -->
   <xs:complexType name="font_">
     <xs:attribute name="character">
       <xs:simpleType>
@@ -14,5 +18,19 @@
     </xs:attribute>
     <xs:attribute name="width" type="xs:nonNegativeInteger"/>
   </xs:complexType>
-  
+
+  <!--
+    Short element definition
+    -->
+  <xs:element name="f" type="font-short_" />
+
+  <xs:complexType name="font-short_">
+    <xs:attribute name="p" type="font-parameters_" />
+  </xs:complexType>
+
+  <xs:simpleType name="font-parameters_">
+    <xs:restriction base="xs:string">
+      <xs:pattern value=".?\s\d+\s[0-1]" />
+    </xs:restriction>
+  </xs:simpleType>
 </xs:schema>

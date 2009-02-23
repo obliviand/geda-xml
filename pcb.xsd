@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:libgpcb="http://www.gpleda.org/schemas/geda-gaf/libgpcb"
            xmlns:gaf="http://www.gpleda.org/schemas/geda-gaf"
            xmlns:pcb="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           elementFormDefault="qualified"
            targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
 
-  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgpcb"
-             schemaLocation="libgpcb/types.xsd" />
+  <xs:include schemaLocation="pcb/types.xsd" />
   <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf"
              schemaLocation="gaf.xsd" />
 
@@ -58,12 +57,11 @@ chosen.
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element ref="libgpcb:primative_" maxOccurs="unbounded" />
+      <xs:element ref="pcb:primative" maxOccurs="unbounded" />
     </xs:sequence>
     <xs:attribute name="name" type="xs:string" use="required" />
     <xs:attribute name="width" type="xs:nonNegativeInteger" use="optional" />
     <xs:attribute name="height" type="xs:nonNegativeInteger" use="optional" />
-    <xs:attribute name="type" type="libgpcb:units_" use="optional" />
-    <xs:attribute name="version" type="libgpcb:version_" use="required" />
+    <xs:attribute name="type" type="pcb:units_" use="optional" />
   </xs:complexType>
 </xs:schema>
