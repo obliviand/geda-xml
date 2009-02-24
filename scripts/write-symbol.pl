@@ -28,7 +28,11 @@ $writer->startTag("part",
 		  "xmlns:pcb" => "http://www.gpleda.org/schemas/geda-gaf/pcb",
 		  "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
 		  "xsi:schemaLocation" => "http://www.gpleda.org/schemas/geda-gaf/part ../part/part.xsd");
-write_symbol();
+if (is_font()) {
+	write_font();
+} else {
+	write_symbol();
+}
 
 close SYM_FILE or die $!;
 
@@ -41,6 +45,34 @@ my $doc = XML::LibXML->new->parse_file($file);
 my $xmlschema = XML::LibXML::Schema->new( location => "../part/part.xsd" );
 eval { $xmlschema->validate( $doc ); };
 
+sub write_font
+{
+	my %attributes;
+
+	while ($line = <SYM_FILE>) {
+		if (!utf8::is_utf8($line)) {
+			utf8::encode($line);
+		}
+		my @params = split(' ', $line);
+
+		my $params_size = scalar @params;
+		my @pass_params = splice(@params, 1, $params_size);
+		if ($params[0] eq "v") {
+			$attributes{'version'} = "@pass_params";
+		}
+	}
+
+	my $curr_pos = tell(SYM_FILE);
+
+	$writer->startTag("font",
+			  %attributes);
+
+	add_font();
+
+	seek(SYM_FILE, $curr_pos, 0);
+
+	$writer->endTag("font");
+}
 
 sub write_symbol
 {
@@ -101,6 +133,69 @@ sub write_symbol
 	seek(SYM_FILE, $curr_pos, 0);
 
 	$writer->endTag("symbol");
+}
+
+sub is_font
+{
+	my $curr_pos = tell(SYM_FILE);
+	seek(SYM_FILE, 0, 0);
+	my @pass_params;
+	my $found_font = 0;
+
+	while ($line = <SYM_FILE>) {
+		if (!utf8::is_utf8($line)) {
+			utf8::encode($line);
+		}
+		my @params = split(' ', $line);
+
+		my $params_size = scalar @params;
+
+		@pass_params = splice(@params, 1, $params_size);
+
+		if ($params[0] eq "F" && !$found_font) { # Line
+			@pass_params = splice(@params, 1, $params_size);
+			$found_font = 1;
+		} elsif ($params[0] eq "F" && !$found_font) {
+			print "Error: found extra font primative in $file. There should be only one.\n";
+			exit();
+		}
+	}
+	seek(SYM_FILE, $curr_pos, 0);
+	return $found_font;
+}
+
+sub add_font
+{
+	seek(SYM_FILE, 0, 0);
+	my @pass_params;
+	my $found_font = 0;
+
+	while ($line = <SYM_FILE>) {
+		if (!utf8::is_utf8($line)) {
+			utf8::encode($line);
+		}
+		my @params = split(' ', $line);
+
+		my $params_size = scalar @params;
+
+		@pass_params = splice(@params, 1, $params_size);
+
+		if ($params[0] eq "F" && !$found_font) { # Line
+			@pass_params = splice(@params, 1, $params_size);
+			$found_font = 1;
+		} elsif ($params[0] eq "F" && !$found_font) {
+			print "Error: found extra font primative in $file. There should be only one.\n";
+			exit();
+		}
+	}
+
+	$writer->startTag("f",
+			  "p" => join(" ",@pass_params));
+
+	add_drawing_primatives();
+	
+	$writer->endTag("f");
+	
 }
 
 sub add_documentation
@@ -323,12 +418,12 @@ sub add_drawing_primatives
 		} elsif ($params[0] eq "{") {
 			$found_subitem=1;
 			next;
-		} elsif ($params[0] eq "v") {
+		} elsif ($params[0] eq "v" || $params[0] eq "F") {
 		} elsif (!$found_text && !$found_path && !$found_subitem && 
 			 $done_text && $done_path &&
 			 ($params[0] ne "P") && ($params[0] ne "}")) {
 			print "Unhandled primative '$params[0]' found in $file\n";
-			exit;
+			exit();
 		}
 
 		$found_text=0;
