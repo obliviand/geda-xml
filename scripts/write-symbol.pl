@@ -1,5 +1,6 @@
 #!/usr/bin/perl
 
+use utf8;
 use strict;
 use Getopt::Std;
 use XML::Writer;
@@ -47,6 +48,9 @@ sub write_symbol
 	my $found_attribute = 0;
 
 	while ($line = <SYM_FILE>) {
+		if (!utf8::is_utf8($line)) {
+			utf8::encode($line);
+		}
 		my @params = split(' ', $line);
 
 		my $params_size = scalar @params;
@@ -105,7 +109,11 @@ sub add_documentation
 	my $found_subitem=0;
 	my $found_text=0;
 	my @pass_params;
+
 	while ($line = <SYM_FILE>) {
+		if (!utf8::is_utf8($line)) {
+			utf8::encode($line);
+		}
 		my @params = split(' ', $line);
 
 		my $params_size = scalar @params;
@@ -134,7 +142,11 @@ sub add_documentation
 		@pass_params = splice(@params, 1, $params_size);
 
 		if ($params[0] eq "T") { # Text
-			$found_text=$pass_params[$#pass_params];
+			if ($#pass_params < 10) {
+				$found_text = 1;
+			} else {
+				$found_text = $pass_params[$#pass_params];
+			}
 			next;
 		} elsif ($params[0] eq "{") {
 			$found_subitem=1;
@@ -151,7 +163,11 @@ sub add_global_attributes
 	my $found_subitem=0;
 	my $found_text=0;
 	my @pass_params;
+
 	while ($line = <SYM_FILE>) {
+		if (!utf8::is_utf8($line)) {
+			utf8::encode($line);
+		}
 		my @params = split(' ', $line);
 
 		my $params_size = scalar @params;
@@ -188,7 +204,11 @@ sub add_global_attributes
 		@pass_params = splice(@params, 1, $params_size);
 
 		if ($params[0] eq "T") { # Text
-			$found_text=$pass_params[$#pass_params];
+			if ($#pass_params < 10) {
+				$found_text = 1;
+			} else {
+				$found_text = $pass_params[$#pass_params];
+			}
 			next;
 		} elsif ($params[0] eq "{") {
 			$found_subitem=1;
@@ -211,6 +231,9 @@ sub add_drawing_primatives
 	my @text_array;
 
 	while ($line = <SYM_FILE>) {
+		if (!utf8::is_utf8($line)) {
+			utf8::encode($line);
+		}
 		my @params = split(' ', $line);
 
 		my $params_size = scalar @params;
@@ -227,7 +250,7 @@ sub add_drawing_primatives
 					$done_text = 1;
 					@text_array = ();
 				}
-			} elsif (!$found_text && !$done_text) {
+			} elsif (!$done_text) {
 				$writer->startTag("gs:t",
 						  "p" => join(" ", @pass_params));
 				foreach (@text_array) {
@@ -284,7 +307,11 @@ sub add_drawing_primatives
 			write_primative("gs:a",\@pass_params);
 		} elsif ($params[0] eq "T") { # Text
 			@pass_params = splice(@params, 1, $params_size);
-			$found_text = $pass_params[$#pass_params];
+			if ($#pass_params < 10) {
+				$found_text = 1;
+			} else {
+				$found_text = $pass_params[$#pass_params];
+			}
 			$done_text = 0;
 			next;
 		} elsif ($params[0] eq "H") { # Path
@@ -296,7 +323,14 @@ sub add_drawing_primatives
 		} elsif ($params[0] eq "{") {
 			$found_subitem=1;
 			next;
+		} elsif ($params[0] eq "v") {
+		} elsif (!$found_text && !$found_path && !$found_subitem && 
+			 $done_text && $done_path &&
+			 ($params[0] ne "P") && ($params[0] ne "}")) {
+			print "Unhandled primative '$params[0]' found in $file\n";
+			exit;
 		}
+
 		$found_text=0;
 	}
 }
@@ -310,6 +344,9 @@ sub add_pins
 	my %attributes;
 
 	while ($line = <SYM_FILE>) {
+		if (!utf8::is_utf8($line)) {
+			utf8::encode($line);
+		}
 		my @params = split(' ', $line);
 
 		my $params_size = scalar @params;
