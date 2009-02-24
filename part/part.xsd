@@ -115,7 +115,6 @@
   <xs:complexType name="font_">
     <xs:choice maxOccurs="unbounded">
       <xs:element name="f" type="libgeda:font-short_" />
-      <xs:element ref="libgeda:primative" />
     </xs:choice>
     <xs:attribute name="version" type="version" use="required" />
   </xs:complexType>
