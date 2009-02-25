@@ -7,9 +7,9 @@
            targetNamespace="http://www.gpleda.org/schemas/geda-gaf/part">
 
   <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/pcb"
-             schemaLocation="../pcb/pcb.xsd" />
+             schemaLocation="../pcb/types.xsd" />
   <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgeda"
-             schemaLocation="../libgeda/libgeda.xsd" />
+             schemaLocation="../libgeda/types.xsd" />
 
   <xs:complexType name="part">
     <xs:sequence>

@@ -43,7 +43,7 @@ $output->close();
 my $doc = XML::LibXML->new->parse_file($file);
 
 my $xmlschema = XML::LibXML::Schema->new( location => "../part/part.xsd" );
-eval { $xmlschema->validate( $doc ); };
+$xmlschema->validate( $doc );
 
 sub write_font
 {

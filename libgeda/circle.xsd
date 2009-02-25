@@ -23,6 +23,9 @@
   </xs:attributeGroup>
   
   <xs:complexType name="circle_">
+    <xs:sequence>
+      <xs:element ref="attr" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
     <xs:attributeGroup ref="circle_attributes_" />
   </xs:complexType>
 
@@ -32,6 +35,9 @@
   <xs:element name="v" type="circle-short_" substitutionGroup="primative" />
 
   <xs:complexType name="circle-short_" mixed="true">
+    <xs:sequence>
+      <xs:element ref="attr" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
     <xs:attribute name="p" type="circle-parameters_" />
   </xs:complexType>
 
