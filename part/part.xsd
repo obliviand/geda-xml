@@ -3,6 +3,7 @@
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
            xmlns:pcb="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           xmlns:sch="http://www.ascc.net/xml/schematron"
            elementFormDefault="qualified"
            targetNamespace="http://www.gpleda.org/schemas/geda-gaf/part">
 
@@ -85,6 +86,17 @@
   </xs:simpleType>
 
   <xs:complexType name="symbol_">
+    <xs:annotation>
+      <xs:appinfo>
+        <sch:pattern name="Validate symbol attributes">
+          <rule context="symbol">
+            <assert test="not(@graphical and @device) and (@graphical or @device)">
+              Validate that either graphical or device attribute exists, but not both.
+            </assert>
+          </rule>
+        </sch:pattern>
+      </xs:appinfo>
+    </xs:annotation>
     <xs:choice maxOccurs="unbounded">
       <xs:element name="pins" type="pins_" />
       <xs:element ref="libgeda:primative" />
@@ -92,7 +104,7 @@
     <xs:attribute name="version" type="version" use="required" />
     <xs:attribute name="angle" type="libgeda:object_angle_" use="optional" />
     <xs:attribute name="mirror" type="libgeda:object_mirrored_" use="optional" />
-    <xs:attribute name="device" type="xs:string" use="required" />
+    <xs:attribute name="device" type="xs:string" use="optional" />
     <xs:attribute name="graphical" type="xs:boolean" use="optional" />
     <xs:attribute name="description" type="xs:string" use="optional" />
     <xs:attribute name="author" type="xs:string" use="optional" />
