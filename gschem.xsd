@@ -3,6 +3,7 @@
 	   xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
            xmlns:gaf="http://www.gpleda.org/schemas/geda-gaf" 
 	   xmlns:gschem="http://www.gpleda.org/schemas/geda-gaf/gschem"
+           xmlns:svg="http://www.w3.org/2000/svg"
            elementFormDefault="qualified"
            targetNamespace="http://www.gpleda.org/schemas/geda-gaf/gschem">
 
@@ -10,13 +11,20 @@
              schemaLocation="libgeda/types.xsd" />
   <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf"
              schemaLocation="gaf.xsd" />
+  <xs:import namespace="http://www.w3.org/2000/svg"
+             schemaLocation="svg.xsd" />
 
   <xs:element name="gschem" type="gschem:gschem_" substitutionGroup="gaf:primative_" />
 
   <xs:complexType name="gschem_">
-    <xs:sequence>
-      <xs:element ref="libgeda:primative" maxOccurs="unbounded"/>
-    </xs:sequence>
+    <xs:choice>
+      <xs:sequence>
+        <xs:element ref="libgeda:primative" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:sequence>
+        <xs:element ref="svg:svg" />
+      </xs:sequence>
+    </xs:choice>
   </xs:complexType>
   
 </xs:schema>
