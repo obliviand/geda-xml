@@ -29,11 +29,11 @@ my $line;
 
 $writer->xmlDecl("UTF-8");
 $writer->startTag("part", 
-		  "xmlns" => "http://www.gpleda.org/schemas/geda-gaf/part",
-		  "xmlns:gs" => "http://www.gpleda.org/schemas/geda-gaf/libgeda",
-		  "xmlns:pcb" => "http://www.gpleda.org/schemas/geda-gaf/pcb",
+		  "xmlns" => "http://www.geda-project.org/schemas/geda-gaf/part",
+		  "xmlns:gs" => "http://www.geda-project.org/schemas/geda-gaf/libgeda",
+		  "xmlns:pcb" => "http://www.geda-project.org/schemas/geda-gaf/pcb",
 		  "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
-		  "xsi:schemaLocation" => "http://www.gpleda.org/schemas/geda-gaf/part ../part/part.xsd");
+		  "xsi:schemaLocation" => "http://www.geda-project.org/schemas/geda-gaf/part ../part/part.xsd");
 
 process_sym_file("validate");
 

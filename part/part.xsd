@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns="http://www.gpleda.org/schemas/geda-gaf/part"
+<xs:schema xmlns="http://www.geda-project.org/schemas/geda-gaf/part"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
-           xmlns:pcb="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           xmlns:libgeda="http://www.geda-project.org/schemas/geda-gaf/libgeda"
+           xmlns:pcb="http://www.geda-project.org/schemas/geda-gaf/pcb"
            xmlns:sch="http://www.ascc.net/xml/schematron"
            elementFormDefault="qualified"
-           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/part">
+           targetNamespace="http://www.geda-project.org/schemas/geda-gaf/part">
 
-  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/pcb"
+  <xs:import namespace="http://www.geda-project.org/schemas/geda-gaf/pcb"
              schemaLocation="../pcb/types.xsd" />
-  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+  <xs:import namespace="http://www.geda-project.org/schemas/geda-gaf/libgeda"
              schemaLocation="../libgeda/types.xsd" />
 
   <xs:complexType name="part">

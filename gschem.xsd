@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	   xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
-           xmlns:gaf="http://www.gpleda.org/schemas/geda-gaf" 
-	   xmlns:gschem="http://www.gpleda.org/schemas/geda-gaf/gschem"
+	   xmlns:libgeda="http://www.geda-project.org/schemas/geda-gaf/libgeda"
+           xmlns:gaf="http://www.geda-project.org/schemas/geda-gaf" 
+	   xmlns:gschem="http://www.geda-project.org/schemas/geda-gaf/gschem"
            xmlns:svg="http://www.w3.org/2000/svg"
            elementFormDefault="qualified"
-           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/gschem">
+           targetNamespace="http://www.geda-project.org/schemas/geda-gaf/gschem">
 
-  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+  <xs:import namespace="http://www.geda-project.org/schemas/geda-gaf/libgeda"
              schemaLocation="libgeda/types.xsd" />
-  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf"
+  <xs:import namespace="http://www.geda-project.org/schemas/geda-gaf"
              schemaLocation="gaf.xsd" />
   <xs:import namespace="http://www.w3.org/2000/svg"
              schemaLocation="svg.xsd" />
