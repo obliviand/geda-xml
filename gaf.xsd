@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda"
-           xmlns:gschem="http://www.gpleda.org/schemas/geda-gaf/gschem"
-           xmlns:pcb="http://www.gpleda.org/schemas/geda-gaf/pcb"
-           xmlns:gaf="http://www.gpleda.org/schemas/geda-gaf"
+           xmlns:libgeda="http://www.geda-project.org/schemas/geda-gaf/libgeda"
+           xmlns:gschem="http://www.geda-project.org/schemas/geda-gaf/gschem"
+           xmlns:pcb="http://www.geda-project.org/schemas/geda-gaf/pcb"
+           xmlns:gaf="http://www.geda-project.org/schemas/geda-gaf"
            elementFormDefault="qualified"
-           targetNamespace="http://www.gpleda.org/schemas/geda-gaf">
+           targetNamespace="http://www.geda-project.org/schemas/geda-gaf">
   
-  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+  <xs:import namespace="http://www.geda-project.org/schemas/geda-gaf/libgeda"
              schemaLocation="libgeda/types.xsd" />
-  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/pcb"
+  <xs:import namespace="http://www.geda-project.org/schemas/geda-gaf/pcb"
              schemaLocation="pcb/types.xsd" />
-  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/pcb"
+  <xs:import namespace="http://www.geda-project.org/schemas/geda-gaf/pcb"
              schemaLocation="pcb.xsd" />
-  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/gschem"
+  <xs:import namespace="http://www.geda-project.org/schemas/geda-gaf/gschem"
              schemaLocation="gschem.xsd" />
 
   <xs:element name="primative_" abstract="true" />

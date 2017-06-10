@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:libgeda="http://www.gpleda.org/schemas/geda-gaf/libgeda" 
-           xmlns="http://www.gpleda.org/schemas/geda-gaf/pcb"
+           xmlns:libgeda="http://www.geda-project.org/schemas/geda-gaf/libgeda" 
+           xmlns="http://www.geda-project.org/schemas/geda-gaf/pcb"
            elementFormDefault="qualified"
-           targetNamespace="http://www.gpleda.org/schemas/geda-gaf/pcb">
+           targetNamespace="http://www.geda-project.org/schemas/geda-gaf/pcb">
 
   <xs:include schemaLocation="../types.xsd"/>
   <xs:include schemaLocation="arc.xsd" />
@@ -11,7 +11,7 @@
   <xs:include schemaLocation="mark.xsd" />
   <xs:include schemaLocation="pad.xsd" />
   <xs:include schemaLocation="pin.xsd" />
-  <xs:import namespace="http://www.gpleda.org/schemas/geda-gaf/libgeda"
+  <xs:import namespace="http://www.geda-project.org/schemas/geda-gaf/libgeda"
              schemaLocation="../../libgeda/types.xsd"/>
 
   <xs:element name="element_primative" abstract="true" />
