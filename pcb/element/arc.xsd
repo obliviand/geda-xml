@@ -38,7 +38,7 @@ points left (negative X direction), and 90 degrees points down
 The sweep of the arc.  This may be negative.  Positive angles sweep
 counterclockwise.
 @item Thickness
-The width of the silk line which forms the arc.
+The linewidth of the arc.
 @end table
 
 %end-doc */
