@@ -27,7 +27,7 @@ Coordinates of the endpoints of the line.  These are relative to the
 Element's mark point for new element formats, or absolute for older
 formats.
 @item Thickness
-The width of the silk for this line.
+The width of the line.
 @end table
 
 %end-doc */
