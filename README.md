@@ -61,3 +61,47 @@ IP-Xact (IEEE-1685] is an industry standard xml schema for packaging and distrib
 The vendor name can also be the URL where the IP repository is available for download. Instantiating a VLNV  with github.com, github username and user repo name not only identifies the repository but can automatically download it if it is not already in you local design environment.
 
 IP-Xact allows for the creation of a geda namespace and the addition of any geda specific extensions through the use of <spirit:vendorExtensions>
+
+## Can we change gEDA to use an XML file format?
+
+We have a recurrent debate about XML file formats on geda-user every two or three years.
+I think it has to do with how long it takes us to lose our institutional memory due to churn on the mailing list.
+
+It's unlikely the gEDA Project will ever switch to an XML file format for schematics or symbols, so get used to it.
+Some reasons against XML are:
+
+1. GEDA/gaf already has a fixed, well documented, ASCII file format, as of 2007.
+   It's well used and well tested.
+
+2. We already have a parser for our file format. It's lightweight & thoroughly debugged.
+
+3. There are lots of legacy designs using the file format out there already.
+   People would scream if we switched file formats since their old designs would become obsolete.
+   And supporting two file formats – old and new – would be a major PITA.
+
+4. XML is a generalized file format. Therefore, XML files tend to become bloated pigs.
+   The gEDA file format is light & well adapted to its purpose: representing graphical
+   information pertinent to schematic diagrams in electronics.
+
+5. One purported benefit for XML files is that there are lots of open-source parsers for them available,
+   making integration into libgeda trivial.
+   That's the theory, but in reality the job of a parser is to analyze and parse the input, and then stick
+   it into datastructures suitable for use with the rest of gschem's code.
+   An open-source parser does about 1/3 of the job we need (i.e. reading & analyzing the file,
+   and creating some kind of parse tree).
+   The rest of the job involves putting the stuff in the parse tree into libgeda's data structures.
+   That's lots of work.
+   Therefore, the purported advantage of the freely-available XML parser is a chimera.
+   Yes, XML may be of interest for a new program written from the ground up, but not for an existing program like gEDA.
+
+6. GEDA developer time is better used on implementing new features like backannotation.
+    Using developer time on porting our file format to XML is a sideways move which doesn't provide
+    the end user any more utility, but soaks up valuable developer time.
+
+7. The other benefit of XML is that it is more-or-less human readable.
+    I'll grant that this is a valid assertion. 
+    Our current file format is not readable by a human who has never read the documentation.
+    However, our current file format *is* ASCII, and is completely documented, so an essential
+    reason for readability - the ability to write scripts against the file - is already taken care of.
+    Also, a human can certainly read the file format once he has taken the time to RTFM.
+    Human readability - without knowing the file format - is a “nice to have” which isn't high on my priority list.
