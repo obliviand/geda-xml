@@ -10,7 +10,7 @@ One major goal of this effort is to provide advanced file format features while 
 
 Another main goal is to start addressing the Symbol Library Hacker task discussed at [geda:todos](http://wiki.geda-project.org/geda:todos).
 
-Yes, this effort is self concious because of [geda:usage#can_we_change_geda_to_use_an_xml_file_format](http://wiki.geda-project.org/geda:usage#can_we_change_geda_to_use_an_xml_file_format).
+Yes, this effort is self concious because of [geda:usage#can_we_change_geda_to_use_an_xml_file_format](http://wiki.geda-project.org/geda:usage#can_we_change_geda_to_use_an_xml_file_format), see paragraph below.
 
 The concerns expressed there will hopefully be addressed as part of this effort to minimize the impact to existing file formats, and not tie up core developer time on this work.  Specifically issues 2,3,4 and 5 are valid concerns, but they can be overcome with good design and a little bit of coding, especially if this is treated as a wrapper or evolution rather than a totally new file format.
 
