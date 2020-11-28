@@ -2,7 +2,7 @@
 
 [XML Schema and Utilities for gEDA](http://wiki.geda-project.org/geda:xml_file_formats)
 
-\====== XML File Formats ======
+## XML File Formats
 
 This page is a starting point for discussions on using XML for commonality between gEDA applications.
 
@@ -54,16 +54,10 @@ Work that needs to be done to get this effort really started:
   
   * Write XSLT to convert "xpart" file back to .sym/.fp format.
 
-
-
-
-====== IP-Xact ======
+## IP-Xact
 
 IP-Xact (IEEE-1685] is an industry standard xml schema for packaging and distributing IP and could be adopted by gEDA for internal use as well. Its main advantage is that it uses a component name that is guaranteed to be unique and will never have name collisions with any other IP-Xact components in the world. Each component has a four field identifier called the VLNV ( Vendor name, Library name, Component name and Version) Vendors use a URL that they own for their vendor name and no other IP-Xact file in the world will use that same name. 
 
 The vendor name can also be the URL where the IP repository is available for download. Instantiating a VLNV  with github.com, github username and user repo name not only identifies the repository but can automatically download it if it is not already in you local design environment.
 
 IP-Xact allows for the creation of a geda namespace and the addition of any geda specific extensions through the use of <spirit:vendorExtensions>
-
-
-
